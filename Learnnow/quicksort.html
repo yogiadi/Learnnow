@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Algorithms</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="icon" href="icons/icons.jpg">
+  <link rel="stylesheet" href="css/bootstrap.min.css">
+  <link rel="stylesheet" href="css/style.css">
+  <script src="js/jquery.min.js"></script>
+  <script src="js/bootstrap.min.js"></script>
+</head>
+<body>
+    <div class="col-sm-2 sidenav" style="overflow-y:scroll;height:700px;">
+      <iframe src="listpages.html" height="700" width="600"></iframe>
+    </div>
+<nav class="navbar navbar-inverse">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>                        
+      </button>
+      <a class="navbar-brand" href="#">LearnAlgorithms</a>
+    </div>
+    <div class="collapse navbar-collapse" id="myNavbar">
+      <ul class="nav navbar-nav">
+        <li class="active hidden"><a href="#">Home</a></li>
+        <li class="hidden"><a href="#">About</a></li>
+        <li class="hidden"><a href="#">Projects</a></li>
+        <li class="hidden"><a href="#">Contact</a></li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li class="hidden"><a href="#"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
+      </ul>
+    </div>
+</nav>
+  
+<div class="container-fluid text-center">    
+  <div class="row content">
+    <div class="col-sm-8 text-left"> 
+      <h1>QuickSort</h1>
+      <p>Quick sort uses partition process to divide the input into two parts based on a pivot element where all the elements on the left of the pivot is less than the pivot element and all to the right is greater than it. It is however not necessary for the elements to be in sorted order in both the paritions. But when it is recursively applied to the smallest parition it returns a sorted array.
+      <p>It can be divided into two parts :-
+      <ul><b>Partition</b> 
+      <ol>Choose the last element as pivot</ol>
+      <ol>Choose a pointer which will keep track of all the elements which are less than pivot elements . Lets consider this pointer as i.
+      Initially we will keep its value as one less than starting point because we consider that all the elements as greater than pivot element.</ol>
+      <ol>Iterate from the first element to the second last element of the array. </ol>
+      <ol>Compare each element with pivot element. When getting an element having value less than pivot , we increase the pointer value by 1 and exchange the value so as to bring it to the left of the pivot.</ol>
+      </ul>
+      <ul><b>Call partition with recursive methods</b>
+      <ol>Call partition method and position the last element at its appropriate position.</ol>
+      <ol>Divide the parition into two parts one to the left of the pivot and other the right of the pivot and sort them recursively with quick sort</ol>
+      </ul>
+      <b>Base Step</b>
+      <ol>Chooss last element as pivot.</ol>
+      <ol>Choose a pointer for elements lesser than pivot.</ol>
+      <ol>If value less than pivot increase the pointer and swap it with the element.</ol>
+      <b>Iterative Steps</b>
+      <ol>Divide the array into two parts.</ol>
+      <ol>Call the function recursively on left and right partition.</ol>
+          
+          <b>Time complexity analysis</b> <br>
+          Build max heap for an array of size N= n<br>
+          No of comparisons for each element=logn <br>
+          No of elements to be compared=n.<br>
+          No of steps for heap sort is n+nlogn.<br>
+          Time complexity of heap sort is O(nlogn).<br>
+          Implementation of heap sort in python is below
+          <pre>
+          <code>
+          def partition(A,p,q):
+            print("A is ",A," p is ",p," q is ",q)
+            i=p-1
+            x=A[q]
+            print("i is ",i)
+            for j in range(p,q):
+              print("For loop")
+              if x > A[j]:
+                i=i+1
+                print("i is ",i)
+                print("A[q] ",A[q]," is greater than A[j] ",A[j])
+                A[i],A[j]=A[j],A[i]
+            print("Returning i is ",i+1)
+            A[i+1],A[q]=A[q],A[i+1]
+            return i+1
+          def quicksort(A,p,r):
+            print("A is ",A," p is ",p," r is ",r)
+            if p < r:
+              q=partition(A,p,r)
+              quicksort(A,p,q-1)
+              quicksort(A,q+1,r)
+          </code></pre>
+        <pre>
+        <sample>
+         A=[7,2,9,10,34,27,5,4]
+           quicksort(A,0,7)
+          A is  [7, 2, 9, 10, 34, 27, 5, 4]  p is  0  r is  7
+          A is  [7, 2, 9, 10, 34, 27, 5, 4]  p is  0  q is  7
+          i is  -1
+          For loop
+          For loop
+          i is  0
+          A[q]  4  is greater than A[j]  2
+          For loop
+          For loop
+          For loop
+          For loop
+          For loop
+          Returning i is  1
+          Returning q is  1
+          A is  [2, 4, 9, 10, 34, 27, 5, 7]  p is  0  r is  0
+          A is  [2, 4, 9, 10, 34, 27, 5, 7]  p is  2  r is  7
+          A is  [2, 4, 9, 10, 34, 27, 5, 7]  p is  2  q is  7
+          i is  1
+          For loop
+          For loop
+          For loop
+          For loop
+          For loop
+          i is  2
+          A[q]  7  is greater than A[j]  5
+          Returning i is  3
+          Returning q is  3
+          A is  [2, 4, 5, 7, 34, 27, 9, 10]  p is  2  r is  2
+          A is  [2, 4, 5, 7, 34, 27, 9, 10]  p is  4  r is  7
+          A is  [2, 4, 5, 7, 34, 27, 9, 10]  p is  4  q is  7
+          i is  3
+          For loop
+          For loop
+          For loop
+          i is  4
+          A[q]  10  is greater than A[j]  9
+          Returning i is  5
+          Returning q is  5
+          A is  [2, 4, 5, 7, 9, 10, 34, 27]  p is  4  r is  4
+          A is  [2, 4, 5, 7, 9, 10, 34, 27]  p is  6  r is  7
+          A is  [2, 4, 5, 7, 9, 10, 34, 27]  p is  6  q is  7
+          i is  5
+          For loop
+          Returning i is  6
+          Returning q is  6
+          A is  [2, 4, 5, 7, 9, 10, 27, 34]  p is  6  r is  5
+          A is  [2, 4, 5, 7, 9, 10, 27, 34]  p is  7  r is  7
+                    
+                    [2, 4, 5, 7, 9, 10, 27, 34]
+</sample></pre>
+        </p>
+      <h3 class="hidden">Test</h3>
+      <p class="hidden">Lorem ipsum...</p>
+    </div>
+    <div class="col-sm-2 sidenav hidden">
+      <div class="well">
+        <p>ADS</p>
+      </div>
+      <div class="well">
+        <p>ADS</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<footer class="container-fluid text-center hidden">
+  <p>Footer Text</p>
+</footer>
+
+</body>
+</html>

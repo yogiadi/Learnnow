@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Algorithms</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="icon" href="icons/icons.jpg">
+  <link rel="stylesheet" href="css/bootstrap.min.css">
+  <link rel="stylesheet" href="css/style.css">
+  <script src="js/jquery.min.js"></script>
+  <script src="js/bootstrap.min.js"></script>
+</head>
+<body>
+    <div class="col-sm-2 sidenav" style="overflow-y:scroll;height:700px;">
+    <iframe src="listpages.html" height="700" width="600"></iframe>
+    </div>
+<nav class="navbar navbar-inverse">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>                        
+      </button>
+      <a class="navbar-brand" href="#">LearnAlgorithms</a>
+    </div>
+    <div class="collapse navbar-collapse" id="myNavbar">
+      <ul class="nav navbar-nav">
+        <li class="active hidden"><a href="#">Home</a></li>
+        <li class="hidden"><a href="#">About</a></li>
+        <li class="hidden"><a href="#">Projects</a></li>
+        <li class="hidden"><a href="#">Contact</a></li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li class="hidden"><a href="#"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
+      </ul>
+    </div>
+</nav>
+  
+<div class="container-fluid text-center">    
+  <div class="row content">
+    <div class="col-sm-8 text-left"> 
+      <h1>Cut Rod</h1>
+      <b>Base step</b>
+      <ol>For each number n , loop through n by breaking it into (1,n-1),(2,n-2)etc.</ol>
+      <ol>Find maximum sum for each number upto n and store it in array</ol>
+          <pre>
+          <code>
+          def cut_rod(p,n):
+            print("Calling cut rod function on p and n as ",p , " ", n )
+            if n==0:
+                print("n is zero so it will return 0")
+                return 0
+            q=-math.inf
+            print("q is ",q)
+            for i in range(1,n+1):
+                print("value of i is ",i)
+                q=max(q,p[i]+cut_rod(p,n-i))
+                print("Value of q is as ",q)
+            return q
+
+            def memoized_cut_rod (p,n):
+                r=[]
+                for i in range(0,n+1):
+                    r.append(-math.inf)
+                print("Value of r is " , r)
+                return memoized_cut_rod_aux(p,n,r)
+            def memoized_cut_rod_aux(p,n,r):
+                if r[n]>=0:
+                    print("Value of r[n] is ",r[n])
+                    return r[n]
+                if n==0:
+                    print("n is equal to 0")
+                    return 0
+                else :
+                    q=-math.inf
+                    for i in range(1,n+1):
+                        print("Value of q before comparison ",q)
+                        q=max(q,p[i]+memoized_cut_rod_aux(p,n-i,r))
+                        print("Value of q after comparison ",q)
+                    r[n]=q
+                    print("Value of r[n] is ",r[n])
+                    return q
+          </code></pre>
+        <pre>
+        <sample>
+        Calling cut rod function on p and n as  [0, 1, 5, 8, 9, 10, 17, 17, 20, 24, 30]   4
+        q is  -inf
+        value of i is  1  and q is  -inf
+        Calling cut rod function on p and n as  [0, 1, 5, 8, 9, 10, 17, 17, 20, 24, 30]   3
+        q is  -inf
+        value of i is  1  and q is  -inf
+        Calling cut rod function on p and n as  [0, 1, 5, 8, 9, 10, 17, 17, 20, 24, 30]   2
+        q is  -inf
+        value of i is  1  and q is  -inf
+        Calling cut rod function on p and n as  [0, 1, 5, 8, 9, 10, 17, 17, 20, 24, 30]   1
+        q is  -inf
+        value of i is  1  and q is  -inf
+        Calling cut rod function on p and n as  [0, 1, 5, 8, 9, 10, 17, 17, 20, 24, 30]   0
+        n is zero so it will return 0
+        Value of q after max is  1  for i as  1
+        Value of q after max is  2  for i as  1
+        value of i is  2  and q is  2
+        Calling cut rod function on p and n as  [0, 1, 5, 8, 9, 10, 17, 17, 20, 24, 30]   0
+        n is zero so it will return 0
+        Value of q after max is  5  for i as  2
+        Value of q after max is  6  for i as  1
+        value of i is  2  and q is  6
+        Calling cut rod function on p and n as  [0, 1, 5, 8, 9, 10, 17, 17, 20, 24, 30]   1
+        q is  -inf
+        value of i is  1  and q is  -inf
+        Calling cut rod function on p and n as  [0, 1, 5, 8, 9, 10, 17, 17, 20, 24, 30]   0
+        n is zero so it will return 0
+        Value of q after max is  1  for i as  1
+        Value of q after max is  6  for i as  2
+        value of i is  3  and q is  6
+        Calling cut rod function on p and n as  [0, 1, 5, 8, 9, 10, 17, 17, 20, 24, 30]   0
+        n is zero so it will return 0
+        Value of q after max is  8  for i as  3
+        Value of q after max is  9  for i as  1
+        value of i is  2  and q is  9
+        Calling cut rod function on p and n as  [0, 1, 5, 8, 9, 10, 17, 17, 20, 24, 30]   2
+        q is  -inf
+        value of i is  1  and q is  -inf
+        Calling cut rod function on p and n as  [0, 1, 5, 8, 9, 10, 17, 17, 20, 24, 30]   1
+        q is  -inf
+        value of i is  1  and q is  -inf
+        Calling cut rod function on p and n as  [0, 1, 5, 8, 9, 10, 17, 17, 20, 24, 30]   0
+        n is zero so it will return 0
+        Value of q after max is  1  for i as  1
+        Value of q after max is  2  for i as  1
+        value of i is  2  and q is  2
+        Calling cut rod function on p and n as  [0, 1, 5, 8, 9, 10, 17, 17, 20, 24, 30]   0
+        n is zero so it will return 0
+        Value of q after max is  5  for i as  2
+        Value of q after max is  10  for i as  2
+        value of i is  3  and q is  10
+        Calling cut rod function on p and n as  [0, 1, 5, 8, 9, 10, 17, 17, 20, 24, 30]   1
+        q is  -inf
+        value of i is  1  and q is  -inf
+        Calling cut rod function on p and n as  [0, 1, 5, 8, 9, 10, 17, 17, 20, 24, 30]   0
+        n is zero so it will return 0
+        Value of q after max is  1  for i as  1
+        Value of q after max is  10  for i as  3
+        value of i is  4  and q is  10
+        Calling cut rod function on p and n as  [0, 1, 5, 8, 9, 10, 17, 17, 20, 24, 30]   0
+        n is zero so it will return 0
+        Value of q after max is  10  for i as  4
+        10
+</sample></pre>
+<pre>
+        <sample>
+       memoized_cut_rod (p,4)
+Value of r is  [-inf, -inf, -inf, -inf, -inf]
+Value of q before comparison  -inf
+Value of q before comparison  -inf
+Value of q before comparison  -inf
+Value of q before comparison  -inf
+n is equal to 0
+Value of q after comparison  1
+Value of r[n] is  1
+Value of q after comparison  2
+Value of q before comparison  2
+n is equal to 0
+Value of q after comparison  5
+Value of r[n] is  5
+Value of q after comparison  6
+Value of q before comparison  6
+Value of r[n] is  1
+Value of q after comparison  6
+Value of q before comparison  6
+n is equal to 0
+Value of q after comparison  8
+Value of r[n] is  8
+Value of q after comparison  9
+Value of q before comparison  9
+Value of r[n] is  5
+Value of q after comparison  10
+Value of q before comparison  10
+Value of r[n] is  1
+Value of q after comparison  10
+Value of q before comparison  10
+n is equal to 0
+Value of q after comparison  10
+Value of r[n] is  10
+10
+</sample></pre>
+        </p>
+      <h3 class="hidden">Test</h3>
+      <p class="hidden">Lorem ipsum...</p>
+    </div>
+    <div class="col-sm-2 sidenav hidden">
+      <div class="well">
+        <p>ADS</p>
+      </div>
+      <div class="well">
+        <p>ADS</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<footer class="container-fluid text-center hidden">
+  <p>Footer Text</p>
+</footer>
+
+</body>
+</html>

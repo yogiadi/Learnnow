@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Algorithms</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="icon" href="icons/icons.jpg">
+  <link rel="stylesheet" href="css/bootstrap.min.css">
+  <link rel="stylesheet" href="css/style.css">
+  <script src="js/jquery.min.js"></script>
+  <script src="js/bootstrap.min.js"></script>
+</head>
+<body>
+    <div class="col-sm-2 sidenav" style="overflow-y:scroll;height:700px;">
+      <iframe src="listpages.html" height="700" width="600"></iframe>
+    </div>
+<nav class="navbar navbar-inverse">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>                        
+      </button>
+      <a class="navbar-brand" href="#">LearnAlgorithms</a>
+    </div>
+    <div class="collapse navbar-collapse" id="myNavbar">
+      <ul class="nav navbar-nav">
+        <li class="active hidden"><a href="#">Home</a></li>
+        <li class="hidden"><a href="#">About</a></li>
+        <li class="hidden"><a href="#">Projects</a></li>
+        <li class="hidden"><a href="#">Contact</a></li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li class="hidden"><a href="#"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
+      </ul>
+    </div>
+</nav>
+  
+<div class="container-fluid text-center">    
+  <div class="row content">
+    <div class="col-sm-8 text-left"> 
+      <h1>Merge Sort</h1>
+      <p>In merge sort , one large array is divided into several parts until only one element is left. Then all the sorted arrays are merged.Since arrays are broken into half hence they are broken into logn level.<br>
+      <b>Base step</b>
+      <ol>Elements of sorted arrays are compared and merged.</ol>
+      <b>Iterative steps</b>
+      <ol>Extract mid point of array .</ol>
+      <ol>Call merge sort on left half and right half of the array.</ol>
+          <br>
+          For example consider below array 
+          <br>
+          7 2 9 10 34 27 5 4
+          <br>
+          This array will be divided into half the size of their parent array.
+          <br>
+          7 2 9 10 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;34 27 5 4
+          <br>
+          7 2&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 9 10 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;34 27 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;5 4
+          <br>
+          7&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 2&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 9 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;10 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;34&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 27 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;5&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 4
+          <br>
+          Once arrays are divided into smaller parts , then we can merge the arrays as per the sorted.
+          <br>
+          7&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 2&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 9 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;10 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;34&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 27 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;5&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 4
+          <br>
+          2 7&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 9 10 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;27 34 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;4 5
+          <br>
+          2 7 9 10 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;4 5 27 34
+          <br>
+          2 4 5 7 9 10 27 34
+          <br>
+          Time complexity analysis<br>
+          No of levels for an array of size N= logn<br>
+          No of comparisons at each level=n <br>
+          Time complexity of merge sort is O(nlogn).<br>
+          Implementation of merge sort in python is below
+          <pre>
+          <code>
+          def mergesort(alist):
+            print("Splitting ",alist)
+            if len(alist)>1:
+                mid= len(alist)//2
+                print("mid of ",alist," is ",mid)
+                lefthalf=alist[:mid]
+                print("lefthalf is ",lefthalf," of ",alist)
+                righthalf=alist[mid:]
+                print("righthalf is ",righthalf," of ",alist)
+                mergesort(lefthalf)
+                mergesort(righthalf)
+                i=0
+                j=0
+                k=0
+                print("Merging left ",lefthalf,"and right ",righthalf)
+                while i &lt; len(lefthalf) and j &lt; len(righthalf):
+                    if lefthalf[i] &lt; righthalf[j]:
+                        print("Lefthalf is greater in " , lefthalf ," main list of ",alist," where right is " , righthalf )
+                        alist[k]=lefthalf[i]
+                        print("alist is now ",alist)
+                        i=i+1
+                    else:
+                        print("Righthalf is greater in " , righthalf ," main list of ",alist," where right is " , lefthalf)
+                        alist[k]=righthalf[j]
+                        print("alist is now ",alist)
+                        j=j+1
+                    k=k+1
+                while i &lt; len(lefthalf):
+                    print("Left is " , lefthalf," and alist is ",alist)
+                    alist[k]=lefthalf[i]
+                    i=i+1
+                    k=k+1
+                    print("Left has now filled  " ,alist)
+                while j&lt;len(righthalf):
+                    print("Right is " , righthalf," and alist is ",alist)
+                    alist[k]=righthalf[j]
+                    j=j+1
+                    k=k+1
+                    print("Right has now filled  " ,alist)
+            print("Merging",alist)
+          </code></pre>
+        <pre>
+        <sample>
+        Splitting  [7, 2, 9, 10, 34, 27, 5, 4]
+        mid of  [7, 2, 9, 10, 34, 27, 5, 4]  is  4
+        lefthalf is  [7, 2, 9, 10]  of  [7, 2, 9, 10, 34, 27, 5, 4]
+        righthalf is  [34, 27, 5, 4]  of  [7, 2, 9, 10, 34, 27, 5, 4]
+        Splitting  [7, 2, 9, 10]
+        mid of  [7, 2, 9, 10]  is  2
+        lefthalf is  [7, 2]  of  [7, 2, 9, 10]
+        righthalf is  [9, 10]  of  [7, 2, 9, 10]
+        Splitting  [7, 2]
+        mid of  [7, 2]  is  1
+        lefthalf is  [7]  of  [7, 2]
+        righthalf is  [2]  of  [7, 2]
+        Splitting  [7]
+        Merging [7]
+        Splitting  [2]
+        Merging [2]
+        Merging left  [7] and right  [2]
+        Righthalf is greater in  [2]  main list of  [7, 2]  where right is  [7]
+        alist is now  [2, 2]
+        Left is  [7]  and alist is  [2, 2]
+        Left has now filled   [2, 7]
+        Merging [2, 7]
+        Splitting  [9, 10]
+        mid of  [9, 10]  is  1
+        lefthalf is  [9]  of  [9, 10]
+        righthalf is  [10]  of  [9, 10]
+        Splitting  [9]
+        Merging [9]
+        Splitting  [10]
+        Merging [10]
+        Merging left  [9] and right  [10]
+        Lefthalf is greater in  [9]  main list of  [9, 10]  where right is  [10]
+        alist is now  [9, 10]
+        Right is  [10]  and alist is  [9, 10]
+        Right has now filled   [9, 10]
+        Merging [9, 10]
+        Merging left  [2, 7] and right  [9, 10]
+        Lefthalf is greater in  [2, 7]  main list of  [7, 2, 9, 10]  where right is  [9, 10]
+        alist is now  [2, 2, 9, 10]
+        Lefthalf is greater in  [2, 7]  main list of  [2, 2, 9, 10]  where right is  [9, 10]
+        alist is now  [2, 7, 9, 10]
+        Right is  [9, 10]  and alist is  [2, 7, 9, 10]
+        Right has now filled   [2, 7, 9, 10]
+        Right is  [9, 10]  and alist is  [2, 7, 9, 10]
+        Right has now filled   [2, 7, 9, 10]
+        Merging [2, 7, 9, 10]
+        Splitting  [34, 27, 5, 4]
+        mid of  [34, 27, 5, 4]  is  2
+        lefthalf is  [34, 27]  of  [34, 27, 5, 4]
+        righthalf is  [5, 4]  of  [34, 27, 5, 4]
+        Splitting  [34, 27]
+        mid of  [34, 27]  is  1
+        lefthalf is  [34]  of  [34, 27]
+        righthalf is  [27]  of  [34, 27]
+        Splitting  [34]
+        Merging [34]
+        Splitting  [27]
+        Merging [27]
+        Merging left  [34] and right  [27]
+        Righthalf is greater in  [27]  main list of  [34, 27]  where right is  [34]
+        alist is now  [27, 27]
+        Left is  [34]  and alist is  [27, 27]
+        Left has now filled   [27, 34]
+        Merging [27, 34]
+        Splitting  [5, 4]
+        mid of  [5, 4]  is  1
+        lefthalf is  [5]  of  [5, 4]
+        righthalf is  [4]  of  [5, 4]
+        Splitting  [5]
+        Merging [5]
+        Splitting  [4]
+        Merging [4]
+        Merging left  [5] and right  [4]
+        Righthalf is greater in  [4]  main list of  [5, 4]  where right is  [5]
+        alist is now  [4, 4]
+        Left is  [5]  and alist is  [4, 4]
+        Left has now filled   [4, 5]
+        Merging [4, 5]
+        Merging left  [27, 34] and right  [4, 5]
+        Righthalf is greater in  [4, 5]  main list of  [34, 27, 5, 4]  where right is  [27, 34]
+        alist is now  [4, 27, 5, 4]
+        Righthalf is greater in  [4, 5]  main list of  [4, 27, 5, 4]  where right is  [27, 34]
+        alist is now  [4, 5, 5, 4]
+        Left is  [27, 34]  and alist is  [4, 5, 5, 4]
+        Left has now filled   [4, 5, 27, 4]
+        Left is  [27, 34]  and alist is  [4, 5, 27, 4]
+        Left has now filled   [4, 5, 27, 34]
+        Merging [4, 5, 27, 34]
+        Merging left  [2, 7, 9, 10] and right  [4, 5, 27, 34]
+        Lefthalf is greater in  [2, 7, 9, 10]  main list of  [7, 2, 9, 10, 34, 27, 5, 4]  where right is  [4, 5, 27, 34]
+        alist is now  [2, 2, 9, 10, 34, 27, 5, 4]
+        Righthalf is greater in  [4, 5, 27, 34]  main list of  [2, 2, 9, 10, 34, 27, 5, 4]  where right is  [2, 7, 9, 10]
+        alist is now  [2, 4, 9, 10, 34, 27, 5, 4]
+        Righthalf is greater in  [4, 5, 27, 34]  main list of  [2, 4, 9, 10, 34, 27, 5, 4]  where right is  [2, 7, 9, 10]
+        alist is now  [2, 4, 5, 10, 34, 27, 5, 4]
+        Lefthalf is greater in  [2, 7, 9, 10]  main list of  [2, 4, 5, 10, 34, 27, 5, 4]  where right is  [4, 5, 27, 34]
+        alist is now  [2, 4, 5, 7, 34, 27, 5, 4]
+        Lefthalf is greater in  [2, 7, 9, 10]  main list of  [2, 4, 5, 7, 34, 27, 5, 4]  where right is  [4, 5, 27, 34]
+        alist is now  [2, 4, 5, 7, 9, 27, 5, 4]
+        Lefthalf is greater in  [2, 7, 9, 10]  main list of  [2, 4, 5, 7, 9, 27, 5, 4]  where right is  [4, 5, 27, 34]
+        alist is now  [2, 4, 5, 7, 9, 10, 5, 4]
+        Right is  [4, 5, 27, 34]  and alist is  [2, 4, 5, 7, 9, 10, 5, 4]
+        Right has now filled   [2, 4, 5, 7, 9, 10, 27, 4]
+        Right is  [4, 5, 27, 34]  and alist is  [2, 4, 5, 7, 9, 10, 27, 4]
+        Right has now filled   [2, 4, 5, 7, 9, 10, 27, 34]
+        Merging [2, 4, 5, 7, 9, 10, 27, 34]
+</sample></pre>
+        </p>
+      <h3 class="hidden">Test</h3>
+      <p class="hidden">Lorem ipsum...</p>
+    </div>
+    <div class="col-sm-2 sidenav hidden">
+      <div class="well">
+        <p>ADS</p>
+      </div>
+      <div class="well">
+        <p>ADS</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<footer class="container-fluid text-center hidden">
+  <p>Footer Text</p>
+</footer>
+
+</body>
+</html>

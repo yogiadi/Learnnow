@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Algorithms</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="icon" href="icons/icons.jpg">
+  <link rel="stylesheet" href="css/bootstrap.min.css">
+  <link rel="stylesheet" href="css/style.css">
+  <script src="js/jquery.min.js"></script>
+  <script src="js/bootstrap.min.js"></script>
+</head>
+<body>
+    <div class="col-sm-2 sidenav" style="overflow-y:scroll;height:700px;">
+      <iframe src="listpages.html" height="700" width="600"></iframe>
+    </div>
+<nav class="navbar navbar-inverse">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>                        
+      </button>
+      <a class="navbar-brand" href="#">LearnAlgorithms</a>
+    </div>
+    <div class="collapse navbar-collapse" id="myNavbar">
+      <ul class="nav navbar-nav">
+        <li class="active hidden"><a href="#">Home</a></li>
+        <li class="hidden"><a href="#">About</a></li>
+        <li class="hidden"><a href="#">Projects</a></li>
+        <li class="hidden"><a href="#">Contact</a></li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li class="hidden"><a href="#"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
+      </ul>
+    </div>
+</nav>
+  
+<div class="container-fluid text-center">    
+  <div class="row content">
+    <div class="col-sm-8 text-left"> 
+      <h1>Heap Sort</h1>
+      <p>Heap Sort is a selection sort , where input is converted into a heap structure. A heap is a tree like structure where all the elements of the array are treated as node with two child nodes . Each node has two child nodes. If the parent node is greater than child nodes then it is a max-heap.It involves below steps:-
+          <br>
+          <ul><b>Max heapify</b> In this step , parent node is compared with child nodes. If parent node is less than child nodes , it is replaced with child nodes. It is again recursively called to the parent node which has been replaced until it goes to its actual parent node place.</ul>
+          <ul><b>Build max heap</b> Call max heapify on each node of the array or the heap so that each parent has a greater value than its child nodes.</ul>
+          <ul>After first build max heap, the maximum value is at root so it is selected and placed at the last place. It is recursively called for each element.</ul>
+
+          <br>
+          <b>Base step</b>
+          <ol>Consider a node and extract its left child by multiplying it with 2 and plus one and right child by multiplying it with 2 and adding 2. </ol>
+          <ol>Compare parent and child nodes and the maximum of the three must be replaced with parent node.</ol>
+          <ol>Call the function again at the node which has been replaced by the earlier parent node.</ol>
+          <b>Iterative steps </b>
+          <ol>Call the function on all the elements starting from the last leaf to the root.</ol>
+          <ol>Extract the root which is the maximum and swap it with last element.</ol>
+          <ol>Perform max heapify at the root.</ol>
+          
+          <b>Time complexity analysis</b> <br>
+          Build max heap for an array of size N= n<br>
+          No of comparisons for each element=logn <br>
+          No of elements to be compared=n.<br>
+          No of steps for heap sort is n+nlogn.<br>
+          Time complexity of heap sort is O(nlogn).<br>
+          Implementation of heap sort in python is below
+          <pre>
+          <code>
+          def max_heapify(A,i,n):
+            print("A is ",A," i is ",i," n is ",n)
+            left=2*i +1
+            print("Left is ",left)
+            right=2*i+2
+            print("Right is ",right)
+            max=i
+            if (left<=n-1 and A[left]>A[max]):
+              print("Left ",A[left]," is greater than max ",A[max])
+              max=left
+            if (right<=n-1 and A[right]>A[max]):
+              print("Right ",A[right]," is greater than max ",A[max])
+              max=right
+            if ( max != i):
+              print("Swap ",A[max]," ",A[i])
+              A[max],A[i]=A[i],A[max]
+              print("Calling max_heapify again on max ",max)
+              max_heapify(A,max,n)
+          def build_max_heap(A):
+            print("Calling build_max_heap")
+            n=len(A)
+            print("Length of A is ",n)
+            i=(n-1)//2
+            print("i is ",i)
+            while(i>=0):
+              print("In while loop")
+              print("i is ",i)
+              print("Calling max_heapify ","A is ",A," i is ",i," n is ",n)
+              max_heapify(A,i,n)
+              i=i-1
+          def heapsort(A):
+            print("Build_max_heap")
+            build_max_heap(A)
+            n=len(A)-1
+            print("n is ",n)
+            while(n>=0):
+              print("Swap A[0] ",A[0]," A[n] ",A[n]," with n as ",n)
+              A[0],A[n]=A[n],A[0]
+              n=n-1
+              print("max_heapify")
+              max_heapify(A,0,n)
+          </code></pre>
+        <pre>
+        <sample>
+        Build_max_heap
+          Calling build_max_heap
+          Length of A is  8
+          i is  3
+          In while loop
+          i is  3
+          Calling max_heapify  A is  [7, 2, 9, 10, 34, 27, 5, 4]  i is  3  n is  8
+          A is  [7, 2, 9, 10, 34, 27, 5, 4]  i is  3  n is  8
+          Left is  7
+          Right is  8
+          In while loop
+          i is  2
+          Calling max_heapify  A is  [7, 2, 9, 10, 34, 27, 5, 4]  i is  2  n is  8
+          A is  [7, 2, 9, 10, 34, 27, 5, 4]  i is  2  n is  8
+          Left is  5
+          Right is  6
+          Left  27  is greater than max  9
+          Swap  27   9
+          Calling max_heapify again on max  5
+          A is  [7, 2, 27, 10, 34, 9, 5, 4]  i is  5  n is  8
+          Left is  11
+          Right is  12
+          In while loop
+          i is  1
+          Calling max_heapify  A is  [7, 2, 27, 10, 34, 9, 5, 4]  i is  1  n is  8
+          A is  [7, 2, 27, 10, 34, 9, 5, 4]  i is  1  n is  8
+          Left is  3
+          Right is  4
+          Left  10  is greater than max  2
+          Right  34  is greater than max  10
+          Swap  34   2
+          Calling max_heapify again on max  4
+          A is  [7, 34, 27, 10, 2, 9, 5, 4]  i is  4  n is  8
+          Left is  9
+          Right is  10
+          In while loop
+          i is  0
+          Calling max_heapify  A is  [7, 34, 27, 10, 2, 9, 5, 4]  i is  0  n is  8
+          A is  [7, 34, 27, 10, 2, 9, 5, 4]  i is  0  n is  8
+          Left is  1
+          Right is  2
+          Left  34  is greater than max  7
+          Swap  34   7
+          Calling max_heapify again on max  1
+          A is  [34, 7, 27, 10, 2, 9, 5, 4]  i is  1  n is  8
+          Left is  3
+          Right is  4
+          Left  10  is greater than max  7
+          Swap  10   7
+          Calling max_heapify again on max  3
+          A is  [34, 10, 27, 7, 2, 9, 5, 4]  i is  3  n is  8
+          Left is  7
+          Right is  8
+          n is  7
+          Swap A[0]  34  A[n]  4  with n as  7
+          max_heapify
+          A is  [4, 10, 27, 7, 2, 9, 5, 34]  i is  0  n is  6
+          Left is  1
+          Right is  2
+          Left  10  is greater than max  4
+          Right  27  is greater than max  10
+          Swap  27   4
+          Calling max_heapify again on max  2
+          A is  [27, 10, 4, 7, 2, 9, 5, 34]  i is  2  n is  6
+          Left is  5
+          Right is  6
+          Left  9  is greater than max  4
+          Swap  9   4
+          Calling max_heapify again on max  5
+          A is  [27, 10, 9, 7, 2, 4, 5, 34]  i is  5  n is  6
+          Left is  11
+          Right is  12
+          Swap A[0]  27  A[n]  5  with n as  6
+          max_heapify
+          A is  [5, 10, 9, 7, 2, 4, 27, 34]  i is  0  n is  5
+          Left is  1
+          Right is  2
+          Left  10  is greater than max  5
+          Swap  10   5
+          Calling max_heapify again on max  1
+          A is  [10, 5, 9, 7, 2, 4, 27, 34]  i is  1  n is  5
+          Left is  3
+          Right is  4
+          Left  7  is greater than max  5
+          Swap  7   5
+          Calling max_heapify again on max  3
+          A is  [10, 7, 9, 5, 2, 4, 27, 34]  i is  3  n is  5
+          Left is  7
+          Right is  8
+          Swap A[0]  10  A[n]  4  with n as  5
+          max_heapify
+          A is  [4, 7, 9, 5, 2, 10, 27, 34]  i is  0  n is  4
+          Left is  1
+          Right is  2
+          Left  7  is greater than max  4
+          Right  9  is greater than max  7
+          Swap  9   4
+          Calling max_heapify again on max  2
+          A is  [9, 7, 4, 5, 2, 10, 27, 34]  i is  2  n is  4
+          Left is  5
+          Right is  6
+          Swap A[0]  9  A[n]  2  with n as  4
+          max_heapify
+          A is  [2, 7, 4, 5, 9, 10, 27, 34]  i is  0  n is  3
+          Left is  1
+          Right is  2
+          Left  7  is greater than max  2
+          Swap  7   2
+          Calling max_heapify again on max  1
+          A is  [7, 2, 4, 5, 9, 10, 27, 34]  i is  1  n is  3
+          Left is  3
+          Right is  4
+          Swap A[0]  7  A[n]  5  with n as  3
+          max_heapify
+          A is  [5, 2, 4, 7, 9, 10, 27, 34]  i is  0  n is  2
+          Left is  1
+          Right is  2
+          Swap A[0]  5  A[n]  4  with n as  2
+          max_heapify
+          A is  [4, 2, 5, 7, 9, 10, 27, 34]  i is  0  n is  1
+          Left is  1
+          Right is  2
+          Swap A[0]  4  A[n]  2  with n as  1
+          max_heapify
+          A is  [2, 4, 5, 7, 9, 10, 27, 34]  i is  0  n is  0
+          Left is  1
+          Right is  2
+          Swap A[0]  2  A[n]  2  with n as  0
+          max_heapify
+          A is  [2, 4, 5, 7, 9, 10, 27, 34]  i is  0  n is  -1
+          Left is  1
+          Right is  2
+          A
+          
+          [2, 4, 5, 7, 9, 10, 27, 34]
+</sample></pre>
+        </p>
+      <h3 class="hidden">Test</h3>
+      <p class="hidden">Lorem ipsum...</p>
+    </div>
+    <div class="col-sm-2 sidenav hidden">
+      <div class="well">
+        <p>ADS</p>
+      </div>
+      <div class="well">
+        <p>ADS</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<footer class="container-fluid text-center hidden">
+  <p>Footer Text</p>
+</footer>
+
+</body>
+</html>

@@ -1,0 +1,445 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Algorithms</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="icon" href="icons/icons.jpg">
+  <link rel="stylesheet" href="css/bootstrap.min.css">
+  <link rel="stylesheet" href="css/style.css">
+  <script src="js/jquery.min.js"></script>
+  <script src="js/bootstrap.min.js"></script>
+</head>
+<body>
+    <div class="col-sm-2 sidenav" style="overflow-y:scroll;height:700px;">
+      <iframe src="listpages.html" height="700" width="600"></iframe>
+    </div>
+<nav class="navbar navbar-inverse">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>                        
+      </button>
+      <a class="navbar-brand" href="#">LearnAlgorithms</a>
+    </div>
+    <div class="collapse navbar-collapse" id="myNavbar">
+      <ul class="nav navbar-nav">
+        <li class="active hidden"><a href="#">Home</a></li>
+        <li class="hidden"><a href="#">About</a></li>
+        <li class="hidden"><a href="#">Projects</a></li>
+        <li class="hidden"><a href="#">Contact</a></li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li class="hidden"><a href="#"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
+      </ul>
+    </div>
+</nav>
+  
+<div class="container-fluid text-center">    
+  <div class="row content">
+    <div class="col-sm-8 text-left"> 
+      <h1>Maximum subarray</h1>
+      <p>Given an array containing both negative and positive values we need to find the contiguous array which has the maximum sum. This can be done by divide and conquer method. In this method we will assume that this array crosses the midpoint. It may or may not actually has the maximum but having this assumption will help in using divide and conquer method.</p>
+      <p>Divide the array into two parts from the middle. <br>
+      From middle to the left calculate the sum of all the elements and store the index of the element having largest sum.<br>
+      Again from middle to the right store the index of the element having largest sum. <br>
+      The array crossing the mid value and spanning from left to thr right will be the array having the maximum sum. <br></p>
+      <b>Base step</b>
+      <ol>Find middle element.</ol>
+      <ol>From middle element calculate sum till the left most element and find the left element.</ol>
+      <ol>From middle element calculate sum till the right most element and find the right element.</ol>
+      <b>Iterative step</b>
+      <ol>Find maximum subarray crossing mid point of the array.</ol>
+      <ol>Find maximum subarray of the left part of the array</ol>
+      <ol>Find maximum subarray of the right part of the array.</ol>
+      <ol>The maximum subarray will be the largest of the three that is crossing the mid point , left and right array.</ol>
+
+
+      <b>Problem</b>
+      <p>The glaring problem of above code is that it only caters for the element passing the middle position. In this case we will divide our array into much smaller parts rather recursively to make sure that almost all the elements are treated as middle element at some point. </p>
+
+      <b>Solution</b>
+      <p>Create a recursive function which will call itself by breaking the original array it was provided into two parts. This function will again be called for the left and right array. If there are 8 elements in the original array it will break the array into two having 4 elements each. Again for the left array it will break into two parts containing 2 elements and finally having one element each. </p>
+      <p>The innermost array will return the value and subsequently return the maximum subrray of the larger array. </p>
+      <p>After finding the maximum sum subarray in left and right , we will get the maximum sub array crossing the midpoint. Till now we have exluded the midpoint. The elements having greatest sum of all the left , right and crossing the midpoint will be returned.</p> 
+      Implementation of maximum subarray in python is below
+          <pre>
+          <code>
+          def find_max_crossing(A,low,mid,high):
+            print("Low is ",low," mid is ",mid," high is ",high)
+            max_left,max_right=-1,-1
+            left_sum=0
+            sum=0
+            for i in range(mid,low-1,-1):
+              print("i is ",i,"sum is ",sum," A[i] is ",A[i])
+              sum=sum+A[i]
+              print("New value of sum is ",sum)
+              if sum > left_sum:
+                left_sum=sum
+                print("left_sum is now ",left_sum)
+                max_left=i
+                print("max_left is ",max_left)
+            right_sum=0
+            sum=0
+            for j in range(mid+1,high+1):
+              print("j is ",j,"sum is ",sum," A[j] is ",A[j])
+              sum=sum+A[j]
+              print("New value of sum is ",sum)
+              if sum > right_sum:
+                right_sum=sum
+                print("right_sum is now ",right_sum)
+                max_right=j
+                print("max_right is ",max_right)
+            if max_right== -1:
+              max_low=max_left
+              max_high=mid
+            if max_left == -1:
+              max_low=mid+1
+              max_high=max_right
+            if max_right== -1 and max_left == -1:
+              max_high,max_low=-1,-1
+            if max_left != -1 and max_right != -1:
+              max_low=max_left
+              max_high=max_right
+            return max_low,max_high,left_sum+right_sum
+
+            A=[13,-3,-25,20,-3,-16,-23,18,20,-7,12,-5,-22,15,-4,7]
+            max_low,max_high,sum=find_max_crossing(A,0,10,15)
+
+            A=[-2,-3,-4,-5,90,-7,-2,-3]
+            max_low,max_high,sum=find_max_crossing(A,0,4,7)
+
+            def find_max_subarray(A,low,high):
+              print("High is ",high," low is ",low)
+              if high == low:
+                return low,high,A[low]
+              else:
+                mid=(low+high)//2
+                print("mid is ",mid)
+                left_low,left_high,left_sum=find_max_subarray(A,low,mid)
+                print("left_low is ",left_low," left_high is ",left_high," left_sum is ",left_sum)
+                right_low,right_high,right_sum=find_max_subarray(A,mid+1,high)
+                print("right_low is ",right_low," right_high is ",right_high," right_sum is ",right_sum)
+                cross_low,cross_high,cross_sum=find_max_crossing(A,low,mid,high)
+                print("cross_low is ",cross_low," cross_high is ",cross_high," cross_sum is ",cross_sum)
+              if left_sum >= right_sum and left_sum >= cross_sum:
+                print("left sum is greater")
+                return left_low,left_high,left_sum
+              elif right_sum >= left_sum and right_sum >= cross_sum:
+                print("right sum is greater")
+                return right_low,right_high,right_sum
+              else:
+                print("cross sum is greater")
+                return cross_low,cross_high,cross_sum
+            low,high,sum=find_max_subarray(A,0,15)
+          </code></pre>
+        <pre>
+        <sample>
+        High is  15  low is  0
+        mid is  7
+        High is  7  low is  0
+        mid is  3
+        High is  3  low is  0
+        mid is  1
+        High is  1  low is  0
+        mid is  0
+        High is  0  low is  0
+        left_low is  0  left_high is  0  left_sum is  13
+        High is  1  low is  1
+        right_low is  1  right_high is  1  right_sum is  -3
+        Low is  0  mid is  0  high is  1
+        i is  0 sum is  0  A[i] is  13
+        New value of sum is  13
+        left_sum is now  13
+        max_left is  0
+        j is  1 sum is  0  A[j] is  -3
+        New value of sum is  -3
+        cross_low is  0  cross_high is  0  cross_sum is  13
+        left sum is greater
+        left_low is  0  left_high is  0  left_sum is  13
+        High is  3  low is  2
+        mid is  2
+        High is  2  low is  2
+        left_low is  2  left_high is  2  left_sum is  -25
+        High is  3  low is  3
+        right_low is  3  right_high is  3  right_sum is  20
+        Low is  2  mid is  2  high is  3
+        i is  2 sum is  0  A[i] is  -25
+        New value of sum is  -25
+        j is  3 sum is  0  A[j] is  20
+        New value of sum is  20
+        right_sum is now  20
+        max_right is  3
+        cross_low is  3  cross_high is  3  cross_sum is  20
+        right sum is greater
+        right_low is  3  right_high is  3  right_sum is  20
+        Low is  0  mid is  1  high is  3
+        i is  1 sum is  0  A[i] is  -3
+        New value of sum is  -3
+        i is  0 sum is  -3  A[i] is  13
+        New value of sum is  10
+        left_sum is now  10
+        max_left is  0
+        j is  2 sum is  0  A[j] is  -25
+        New value of sum is  -25
+        j is  3 sum is  -25  A[j] is  20
+        New value of sum is  -5
+        cross_low is  0  cross_high is  1  cross_sum is  10
+        right sum is greater
+        left_low is  3  left_high is  3  left_sum is  20
+        High is  7  low is  4
+        mid is  5
+        High is  5  low is  4
+        mid is  4
+        High is  4  low is  4
+        left_low is  4  left_high is  4  left_sum is  -3
+        High is  5  low is  5
+        right_low is  5  right_high is  5  right_sum is  -16
+        Low is  4  mid is  4  high is  5
+        i is  4 sum is  0  A[i] is  -3
+        New value of sum is  -3
+        j is  5 sum is  0  A[j] is  -16
+        New value of sum is  -16
+        cross_low is  -1  cross_high is  -1  cross_sum is  0
+        cross sum is greater
+        left_low is  -1  left_high is  -1  left_sum is  0
+        High is  7  low is  6
+        mid is  6
+        High is  6  low is  6
+        left_low is  6  left_high is  6  left_sum is  -23
+        High is  7  low is  7
+        right_low is  7  right_high is  7  right_sum is  18
+        Low is  6  mid is  6  high is  7
+        i is  6 sum is  0  A[i] is  -23
+        New value of sum is  -23
+        j is  7 sum is  0  A[j] is  18
+        New value of sum is  18
+        right_sum is now  18
+        max_right is  7
+        cross_low is  7  cross_high is  7  cross_sum is  18
+        right sum is greater
+        right_low is  7  right_high is  7  right_sum is  18
+        Low is  4  mid is  5  high is  7
+        i is  5 sum is  0  A[i] is  -16
+        New value of sum is  -16
+        i is  4 sum is  -16  A[i] is  -3
+        New value of sum is  -19
+        j is  6 sum is  0  A[j] is  -23
+        New value of sum is  -23
+        j is  7 sum is  -23  A[j] is  18
+        New value of sum is  -5
+        cross_low is  -1  cross_high is  -1  cross_sum is  0
+        right sum is greater
+        right_low is  7  right_high is  7  right_sum is  18
+        Low is  0  mid is  3  high is  7
+        i is  3 sum is  0  A[i] is  20
+        New value of sum is  20
+        left_sum is now  20
+        max_left is  3
+        i is  2 sum is  20  A[i] is  -25
+        New value of sum is  -5
+        i is  1 sum is  -5  A[i] is  -3
+        New value of sum is  -8
+        i is  0 sum is  -8  A[i] is  13
+        New value of sum is  5
+        j is  4 sum is  0  A[j] is  -3
+        New value of sum is  -3
+        j is  5 sum is  -3  A[j] is  -16
+        New value of sum is  -19
+        j is  6 sum is  -19  A[j] is  -23
+        New value of sum is  -42
+        j is  7 sum is  -42  A[j] is  18
+        New value of sum is  -24
+        cross_low is  3  cross_high is  3  cross_sum is  20
+        left sum is greater
+        left_low is  3  left_high is  3  left_sum is  20
+        High is  15  low is  8
+        mid is  11
+        High is  11  low is  8
+        mid is  9
+        High is  9  low is  8
+        mid is  8
+        High is  8  low is  8
+        left_low is  8  left_high is  8  left_sum is  20
+        High is  9  low is  9
+        right_low is  9  right_high is  9  right_sum is  -7
+        Low is  8  mid is  8  high is  9
+        i is  8 sum is  0  A[i] is  20
+        New value of sum is  20
+        left_sum is now  20
+        max_left is  8
+        j is  9 sum is  0  A[j] is  -7
+        New value of sum is  -7
+        cross_low is  8  cross_high is  8  cross_sum is  20
+        left sum is greater
+        left_low is  8  left_high is  8  left_sum is  20
+        High is  11  low is  10
+        mid is  10
+        High is  10  low is  10
+        left_low is  10  left_high is  10  left_sum is  12
+        High is  11  low is  11
+        right_low is  11  right_high is  11  right_sum is  -5
+        Low is  10  mid is  10  high is  11
+        i is  10 sum is  0  A[i] is  12
+        New value of sum is  12
+        left_sum is now  12
+        max_left is  10
+        j is  11 sum is  0  A[j] is  -5
+        New value of sum is  -5
+        cross_low is  10  cross_high is  10  cross_sum is  12
+        left sum is greater
+        right_low is  10  right_high is  10  right_sum is  12
+        Low is  8  mid is  9  high is  11
+        i is  9 sum is  0  A[i] is  -7
+        New value of sum is  -7
+        i is  8 sum is  -7  A[i] is  20
+        New value of sum is  13
+        left_sum is now  13
+        max_left is  8
+        j is  10 sum is  0  A[j] is  12
+        New value of sum is  12
+        right_sum is now  12
+        max_right is  10
+        j is  11 sum is  12  A[j] is  -5
+        New value of sum is  7
+        cross_low is  8  cross_high is  10  cross_sum is  25
+        cross sum is greater
+        left_low is  8  left_high is  10  left_sum is  25
+        High is  15  low is  12
+        mid is  13
+        High is  13  low is  12
+        mid is  12
+        High is  12  low is  12
+        left_low is  12  left_high is  12  left_sum is  -22
+        High is  13  low is  13
+        right_low is  13  right_high is  13  right_sum is  15
+        Low is  12  mid is  12  high is  13
+        i is  12 sum is  0  A[i] is  -22
+        New value of sum is  -22
+        j is  13 sum is  0  A[j] is  15
+        New value of sum is  15
+        right_sum is now  15
+        max_right is  13
+        cross_low is  13  cross_high is  13  cross_sum is  15
+        right sum is greater
+        left_low is  13  left_high is  13  left_sum is  15
+        High is  15  low is  14
+        mid is  14
+        High is  14  low is  14
+        left_low is  14  left_high is  14  left_sum is  -4
+        High is  15  low is  15
+        right_low is  15  right_high is  15  right_sum is  7
+        Low is  14  mid is  14  high is  15
+        i is  14 sum is  0  A[i] is  -4
+        New value of sum is  -4
+        j is  15 sum is  0  A[j] is  7
+        New value of sum is  7
+        right_sum is now  7
+        max_right is  15
+        cross_low is  15  cross_high is  15  cross_sum is  7
+        right sum is greater
+        right_low is  15  right_high is  15  right_sum is  7
+        Low is  12  mid is  13  high is  15
+        i is  13 sum is  0  A[i] is  15
+        New value of sum is  15
+        left_sum is now  15
+        max_left is  13
+        i is  12 sum is  15  A[i] is  -22
+        New value of sum is  -7
+        j is  14 sum is  0  A[j] is  -4
+        New value of sum is  -4
+        j is  15 sum is  -4  A[j] is  7
+        New value of sum is  3
+        right_sum is now  3
+        max_right is  15
+        cross_low is  13  cross_high is  15  cross_sum is  18
+        cross sum is greater
+        right_low is  13  right_high is  15  right_sum is  18
+        Low is  8  mid is  11  high is  15
+        i is  11 sum is  0  A[i] is  -5
+        New value of sum is  -5
+        i is  10 sum is  -5  A[i] is  12
+        New value of sum is  7
+        left_sum is now  7
+        max_left is  10
+        i is  9 sum is  7  A[i] is  -7
+        New value of sum is  0
+        i is  8 sum is  0  A[i] is  20
+        New value of sum is  20
+        left_sum is now  20
+        max_left is  8
+        j is  12 sum is  0  A[j] is  -22
+        New value of sum is  -22
+        j is  13 sum is  -22  A[j] is  15
+        New value of sum is  -7
+        j is  14 sum is  -7  A[j] is  -4
+        New value of sum is  -11
+        j is  15 sum is  -11  A[j] is  7
+        New value of sum is  -4
+        cross_low is  8  cross_high is  11  cross_sum is  20
+        left sum is greater
+        right_low is  8  right_high is  10  right_sum is  25
+        Low is  0  mid is  7  high is  15
+        i is  7 sum is  0  A[i] is  18
+        New value of sum is  18
+        left_sum is now  18
+        max_left is  7
+        i is  6 sum is  18  A[i] is  -23
+        New value of sum is  -5
+        i is  5 sum is  -5  A[i] is  -16
+        New value of sum is  -21
+        i is  4 sum is  -21  A[i] is  -3
+        New value of sum is  -24
+        i is  3 sum is  -24  A[i] is  20
+        New value of sum is  -4
+        i is  2 sum is  -4  A[i] is  -25
+        New value of sum is  -29
+        i is  1 sum is  -29  A[i] is  -3
+        New value of sum is  -32
+        i is  0 sum is  -32  A[i] is  13
+        New value of sum is  -19
+        j is  8 sum is  0  A[j] is  20
+        New value of sum is  20
+        right_sum is now  20
+        max_right is  8
+        j is  9 sum is  20  A[j] is  -7
+        New value of sum is  13
+        j is  10 sum is  13  A[j] is  12
+        New value of sum is  25
+        right_sum is now  25
+        max_right is  10
+        j is  11 sum is  25  A[j] is  -5
+        New value of sum is  20
+        j is  12 sum is  20  A[j] is  -22
+        New value of sum is  -2
+        j is  13 sum is  -2  A[j] is  15
+        New value of sum is  13
+        j is  14 sum is  13  A[j] is  -4
+        New value of sum is  9
+        j is  15 sum is  9  A[j] is  7
+        New value of sum is  16
+        cross_low is  7  cross_high is  10  cross_sum is  43
+        cross sum is greater
+</sample></pre>
+        </p>
+      <h3 class="hidden">Test</h3>
+      <p class="hidden">Lorem ipsum...</p>
+    </div>
+    <div class="col-sm-2 sidenav hidden">
+      <div class="well">
+        <p>ADS</p>
+      </div>
+      <div class="well">
+        <p>ADS</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<footer class="container-fluid text-center hidden">
+  <p>Footer Text</p>
+</footer>
+
+</body>
+</html>

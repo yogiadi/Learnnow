@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Algorithms</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="icon" href="icons/icons.jpg">
+  <link rel="stylesheet" href="css/bootstrap.min.css">
+  <link rel="stylesheet" href="css/style.css">
+  <script src="js/jquery.min.js"></script>
+  <script src="js/bootstrap.min.js"></script>
+</head>
+<body>
+    <div class="col-sm-2 sidenav" style="overflow-y:scroll;height:700px;">
+      <iframe src="listpages.html" height="700" width="600"></iframe>
+    </div>
+<nav class="navbar navbar-inverse">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>                        
+      </button>
+      <a class="navbar-brand" href="#">LearnAlgorithms</a>
+    </div>
+    <div class="collapse navbar-collapse" id="myNavbar">
+      <ul class="nav navbar-nav">
+        <li class="active hidden"><a href="#">Home</a></li>
+        <li class="hidden"><a href="#">About</a></li>
+        <li class="hidden"><a href="#">Projects</a></li>
+        <li class="hidden"><a href="#">Contact</a></li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li class="hidden"><a href="#"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
+      </ul>
+    </div>
+</nav>
+  
+<div class="container-fluid text-center">    
+  <div class="row content">
+    <div class="col-sm-8 text-left"> 
+      <h1>Huffman Coding</h1>
+      <b>Base step</b>
+      <ol><b>Priority Queue</b><br>
+      A priority queue is a structure where all the parent nodes are smaller than their child nodes and insert in a heap structure 
+      at logn time. </ol>
+      <ol>Array will contain elements with characters and elements.</ol>
+      <ol>Extract minimum two elements and combine them and add to the heap structure.</ol>
+      <ol>Nodes at the left will be assigned as 0 and at the right will be assigned as 1.</ol>
+          <pre>
+          <code>
+          def build_min_heap(arr):
+            print("Calling build_min_heap")
+            len_arr=len(arr)
+            print("Length of Array is ",len_arr)
+            index=(len_arr-1)//2
+            print("Index is ",index)
+            while(index>=0):
+              print("In while loop")
+              print("Index is ",index)
+              min_heapify(arr,index,len_arr)
+              index=index-1
+def min_heapify(arr,index,len_arr):
+            left_node=2*index +1
+            print("Left node is ",left_node)
+            right_node=2*index+2
+            print("Right is ",right_node)
+            min=index
+            if (left_node<=len_arr-1 and arr[left_node]< arr[min]):
+              print("Left node ",arr[left_node]," is greater than min ",arr[min])
+              min=left_node
+            if (right_node<=len_arr-1 and arr[right_node]< arr[min]):
+              print("Right ",arr[right_node]," is greater than min ",arr[min])
+              min=right_node
+            if ( min != index):
+              print("Swap ",arr[min]," ",arr[index])
+              arr[min],arr[index]=arr[index],arr[min]
+              print("Calling min_heapify again on min ",min)
+              min_heapify(arr,min,len_arr)
+def heap_minimum(arr):
+  return arr[0]
+def heap_extract_min(arr):
+  min=arr[0]
+  len_arr=len(arr)
+  arr[0]=arr[len_arr-1]
+  del arr[len_arr-1:]
+  min_heapify(arr,0,len_arr-1)
+  return min
+def min_heap_insert(arr,key):
+  arr.append(key)
+  print("Array is ",arr)
+  len_arr=len(arr)-1
+  print("Array of length is ", len_arr)
+  heap_increase_key(arr,len_arr)
+
+def heap_increase_key(arr,index):
+  while index > 0 and arr[index//2]>arr[index]:
+    arr[index],arr[index//2]=arr[index//2],arr[index]
+    index=index//2
+
+def encode(arr):
+    heap = [[weight, [symbol, '']] for weight, symbol in arr]
+    while len(heap) > 1:
+        lo = heap_extract_min(heap)
+        hi = heap_extract_min(heap)
+        for pair in lo[1:]:
+            pair[1] = '0' + pair[1]
+        for pair in hi[1:]:
+            pair[1] = '1' + pair[1]
+        min_heap_insert(heap, [lo[0] + hi[0]] + lo[1:] + hi[1:])
+          </code></pre>
+      <h3 class="hidden">Test</h3>
+      <p class="hidden">Lorem ipsum...</p>
+    </div>
+    <div class="col-sm-2 sidenav hidden">
+      <div class="well">
+        <p>ADS</p>
+      </div>
+      <div class="well">
+        <p>ADS</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<footer class="container-fluid text-center hidden">
+  <p>Footer Text</p>
+</footer>
+
+</body>
+</html>
